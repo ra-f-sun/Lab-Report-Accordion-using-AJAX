@@ -1,0 +1,26 @@
+# WordPress specific
+wp-config.php
+.htaccess
+
+# Sensitive files
+.env
+*.log
+
+# Uploads folder (usually too large)
+wp-content/uploads/
+
+# Cache and temp files
+wp-content/cache/
+wp-content/backup*/
+wp-content/upgrade/
+
+# Node modules (if using npm)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
