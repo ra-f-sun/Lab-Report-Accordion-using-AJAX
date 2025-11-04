@@ -23,12 +23,14 @@ function lab_reports_accordion_using_ajax(){
     global $assets_uri;
     global $lab_report_category;
     
+    //get acf field to get choice list of custom lab report category
     $lab_report_category_field = acf_get_field($lab_report_category);
 
     if(!$lab_report_category_field){
         return '<div style="color: red;">ERROR: ACF field not found!</div>';
     }
     
+    // get choices
     $lab_report_category_field_choices = $lab_report_category_field['choices'];
     
     if(!$lab_report_category_field_choices){
@@ -71,6 +73,8 @@ function lab_reports_accordion_enqueue_assets() {
     
     // Only enqueue if shortcode was actually used on this page
     if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'lab_reports_accordion_using_ajax')) {
+       
+        // css
         wp_enqueue_style(
             'lab-reports-accordion-styles',
             $assets_uri . '/css/lab-reports-accordion.css',
@@ -79,10 +83,20 @@ function lab_reports_accordion_enqueue_assets() {
             'all'
         );
 
+        //download js
+         wp_enqueue_script(
+            'lab-reports-download',
+            $assets_uri . '/js/download.js',
+            array(),
+            $version,
+            true
+        );
+
+        // ajax js with jQuery and download js access
         wp_enqueue_script(
             'lab-reports-accordion-ajax',
             $assets_uri . '/js/ajax.js',
-            array('jquery'),
+            array('jquery','lab-reports-download'),
             $version,
             true
         );
@@ -106,7 +120,7 @@ function handle_load_products_by_category(){
     global $lab_report_media_url;
     global $display_name_for_lab_report;
     
-    // Get category value from POST
+    // Get category value from POST coming from ajax.js
     $category_value = isset($_POST['category_value']) ? sanitize_text_field($_POST['category_value']) : '';
     
     if (empty($category_value)) {
@@ -114,7 +128,7 @@ function handle_load_products_by_category(){
         return;
     }
 
-    // Query products
+    // filter and fetch all products by the category coming from ajax.js
     $products_by_category = $wpdb->get_results(
         $wpdb->prepare(
             "SELECT 
@@ -149,7 +163,7 @@ function handle_load_products_by_category(){
             $display_name_for_lab_report,
             'product',
             'publish',
-            $category_value  // Filter by specific category
+            $category_value
         )
     );
     
@@ -163,10 +177,23 @@ function handle_load_products_by_category(){
         return;
     }
     
+    // Get current site URL once
+    $current_site_url = get_site_url();
+    
+    // Transform URLs for each product 
+    foreach ($products_by_category as $product) {
+        if (!empty($product->lab_report_url)) {
+            // Change http:// to https://
+            $product->lab_report_url = str_replace('http://', 'https://', $product->lab_report_url);
+            
+            // Replace domain with current site URL
+            $product->lab_report_url = preg_replace('#^https?://[^/]+#', $current_site_url, $product->lab_report_url);
+        }
+    }
+    
+    // send response to ajax
     wp_send_json_success(array(
-        'data' => $products_by_category,
-        'count' => count($products_by_category),
-        'category' => $category_value
+        'data' => $products_by_category
     ));
 }
 

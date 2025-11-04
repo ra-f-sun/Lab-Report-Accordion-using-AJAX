@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
 
     $('.lab-accordion-header').on('click', function(){
         var $item = $(this).parent();
-        var $content = $item.find('.category-content');
+        var $content = $item.find('.category-content'); 
         var categoryValue = $item.data('category-value');
 
         console.log('Clicked accordion: ', categoryValue);
@@ -61,8 +61,23 @@ jQuery(document).ready(function($) {
                             
                             $content.find('.lab-accordion-inner').html(html);
                             
-                            // Mark as loaded
+                            // ✅ Mark as loaded FIRST
                             $item.addClass('loaded');
+                            
+                            // ✅ Initialize download handlers for the new buttons
+                            if (typeof window.initLabReportDownloads === 'function') {
+                                window.initLabReportDownloads($content.find('.lab-accordion-inner')[0]);
+                                console.log('Download handlers initialized for category:', categoryValue);
+                            } else {
+                                console.error('initLabReportDownloads function not found');
+                            }
+                            
+                            // ✅ Get all loaded URLs from all loaded categories
+                            if (typeof window.getLoadedLabReportUrls === 'function') {
+                                var allUrls = window.getLoadedLabReportUrls();
+                                console.log('Total loaded URLs:', allUrls.length);
+                                console.log('All URLs:', allUrls);
+                            }
                         } else {
                             $content.find('.lab-accordion-inner').html('<p>No products found.</p>');
                         }
