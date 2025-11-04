@@ -1,0 +1,293 @@
+/**
+ * Lab Reports Simple - Optimized CSS
+ * Version: 1.0.0
+ */
+
+/* ========================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ======================================== */
+:root {
+    /* Colors */
+    --lrm-primary-color: #4CAF50;
+    --lrm-primary-hover: #45a049;
+    --lrm-secondary-color: #2196F3;
+    --lrm-secondary-hover: #0b7dda;
+    --lrm-border-color: #ddd;
+    --lrm-bg-light: #ffffff;
+    --lrm-bg-white: #ffffff;
+    --lrm-text-primary: #333;
+    --lrm-text-secondary: #555;
+    --lrm-text-muted: #666;
+    --lrm-text-light: #999;
+    
+    /* Spacing */
+    --lrm-spacing-xs: 5px;
+    --lrm-spacing-sm: 10px;
+    --lrm-spacing-md: 15px;
+    --lrm-spacing-lg: 20px;
+    --lrm-spacing-xl: 30px;
+    --lrm-spacing-xxl: 40px;
+    
+    /* Border Radius */
+    --lrm-radius-sm: 5px;
+    --lrm-radius-md: 8px;
+    
+    /* Transitions */
+    --lrm-transition-fast: 0.2s ease;
+    --lrm-transition-normal: 0.3s ease;
+    
+    /* Shadows */
+    --lrm-shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --lrm-shadow-md: 0 2px 4px rgba(0,0,0,0.05);
+    
+    /* Flexbox Utilities */
+    --lrm-flex-center: flex;
+    --lrm-flex-between: space-between;
+    --lrm-flex-start: flex-start;
+    --lrm-flex-end: flex-end;
+    --lrm-align-center: center;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.lrm-flex {
+    display: flex;
+}
+
+.lrm-flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lrm-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   MAIN WRAPPER
+   ======================================== */
+.lab-reports-wrapper {
+    margin: 0 auto;
+    padding: var(--lrm-spacing-lg);
+}
+
+/* ========================================
+   SEARCH BOX
+   ======================================== */
+.lab-search-box {
+    margin-bottom: var(--lrm-spacing-xl);
+    position: relative;
+    border: 1px solid var(--lrm-text-primary);
+    border-radius: var(--lrm-radius-md);
+    background-color: var(--lrm-bg-white);
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap:8px;
+    padding: var(--lrm-spacing-sm) var(--lrm-spacing-md);
+    
+}
+
+.search-icon {
+    pointer-events: none; /* Allows clicks to go through to the input */
+    width: 15px;
+    height: 15px;
+}
+
+.lab-search-input {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: var(--lrm-text-primary);
+    font-weight: 600;
+}
+
+.lab-search-input:focus {
+    border-color: var(--lrm-primary-color);
+}
+
+/* Search Results Counter - Below search box */
+.search-results-counter {
+    margin-top: var(--lrm-spacing-sm);
+    font-size: 14px;
+    color: var(--lrm-primary-color);
+    font-weight: 600;
+    display: none;
+}
+
+/* Search Highlight */
+.search-highlight {
+    background-color: #ffeb3b;
+    color: #000;
+    padding: 2px 4px;
+    font-weight: 600;
+    border-radius: 2px;
+}
+
+/* ========================================
+   ACCORDION CONTAINER
+   ======================================== */
+.lab-accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lrm-spacing-sm);
+}
+
+/* ========================================
+   ACCORDION ITEM
+   ======================================== */
+.lab-accordion-item {
+    border: 1px solid var(--lrm-border-color);
+    border-radius: var(--lrm-radius-md);
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ========================================
+   ACCORDION HEADER
+   ======================================== */
+.lab-accordion-header {
+    padding: var(--lrm-spacing-md);
+    cursor: pointer;
+    display: flex;
+    justify-content: var(--lrm-flex-between);
+    align-items: var(--lrm-align-center);
+    font-weight: 600;
+    transition: background-color var(--lrm-transition-normal);
+    user-select: none;
+    text-transform: capitalize;
+}
+
+/* ========================================
+   ACCORDION ICON
+   ======================================== */
+.accordion-icon img {
+    transition: transform var(--lrm-transition-normal);
+    width: 9px;
+    height: 15px;
+}
+
+
+
+/* Category Header */
+.category-header {
+    background-color: var(--lrm-bg-light);
+    font-size: 20px;
+    color: var(--lrm-text-primary);
+}
+
+/* Accordion Icon */
+.accordion-icon {
+    transition: transform var(--lrm-transition-normal);
+    font-size: 12px;
+    display: inline-block;
+}
+
+.lab-accordion-item.active > .lab-accordion-header > .accordion-icon {
+    transform: rotate(180deg);
+}
+
+/* ========================================
+   ACCORDION CONTENT
+   ======================================== */
+.lab-accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--lrm-transition-normal);
+}
+
+.lab-accordion-item.active > .lab-accordion-content {
+    grid-template-rows: 1fr;
+}
+
+.lab-accordion-inner {
+    overflow: hidden;
+}
+
+.category-content {
+    background-color: var(--lrm-bg-lighter);
+}
+
+/* ========================================
+   PRODUCT ROW (SIMPLE)
+   ======================================== */
+.product-item-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px var(--lrm-spacing-md)  ;
+    background: #fff;
+    gap: 16px;
+}
+
+.product-item-simple .product-name {
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+}
+
+/* ========================================
+   BATCH ACTIONS
+   ======================================== */
+.batch-actions {
+    display: flex;
+    gap: var(--lrm-spacing-sm);
+}
+
+/* ========================================
+   BATCH BUTTONS
+   ======================================== */
+.batch-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 0; /* Ensures the button size is defined by the image */
+}
+
+.batch-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.download-btn, .preview-btn {
+    background-color: var(--lrm-bg-white);
+    color: white;
+}
+
+
+.batch-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .product-item-simple {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--lrm-spacing-md);
+        margin-left: var(--lrm-spacing-lg);
+    }
+    
+    .product-item-simple .batch-actions {
+        width: 100%;
+    }
+    
+    .batch-btn {
+        flex: 1;
+        justify-content: center;
+    }
+}
